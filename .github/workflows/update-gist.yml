@@ -1,0 +1,25 @@
+name: Update Gist
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "youtube-music-like-button.user.js"
+
+jobs:
+  update-gist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update Gist
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: |
+          content=$(cat youtube-music-like-button.user.js)
+          curl -X PATCH \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"files\": {\"youtube-music-like-button.user.js\": {\"content\": $(echo "$content" | jq -R -s .)}}}" \
+            "https://api.github.com/gists/$GIST_ID"
