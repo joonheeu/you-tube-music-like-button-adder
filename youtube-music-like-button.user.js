@@ -7,7 +7,7 @@
 // @name:fr         Amélioration du bouton J'aime de YouTube Music
 // @name:de         YouTube Music Mag ich-Schaltfläche Erweiterung
 // @namespace       http://tampermonkey.net/
-// @version         0.1.1
+// @version         0.1.2
 // @description     Enhances YouTube Music with custom like buttons for each song in the queue, syncs with the main player, and provides real-time updates.
 // @description:ko  YouTube Music의 재생 목록에 각 곡마다 커스텀 좋아요 버튼을 추가하고, 메인 플레이어와 동기화하며 실시간 업데이트를 제공합니다.
 // @description:ja  YouTube Musicのキュー内の各曲にカスタムいいねボタンを追加し、メインプレーヤーと同期して、リアルタイムの更新を提供します。
@@ -261,7 +261,7 @@
 
     openContextMenu: async (target) => {
       target.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true }))
-      await new Promise((resolve) => setTimeout(resolve, 65))
+      await new Promise((resolve) => setTimeout(resolve, 60))
     },
 
     checkLikeStatus: async (target) => {
