@@ -17,22 +17,14 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Read Gist
-        id: gist_content
-        uses: gorgbus/gist-actions@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          action: "get"
-          gist_id: ${{ secrets.GIST_ID }}
-          file_name: "youtube-music-like-button.user.js"
-
       - name: Update Gist
-        uses: gorgbus/gist-actions@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          action: "update"
-          gist_id: ${{ secrets.GIST_ID }}
-          file_name: "youtube-music-like-button.user.js"
-          content: ${{ steps.gist_content.outputs.content }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: |
+          content=$(cat youtube-music-like-button.user.js)
+          curl -X PATCH \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"files\": {\"youtube-music-like-button.user.js\": {\"content\": $(echo "$content" | jq -R -s .)}}}" \
+            "https://api.github.com/gists/$GIST_ID"
