@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Update Gist
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID: ${{ secrets.GIST_ID }}
+
+      - name: Read file content
+        id: read_file
         run: |
           content=$(cat youtube-music-like-button.user.js)
-          json_data=$(jq -n --arg content "$content" '{"files": {"youtube-music-like-button.user.js": {"content": $content}}}')
+          echo "::set-output name=file_content::$content"
 
-          curl -X PATCH \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$json_data" \
-            "https://api.github.com/gists/$GIST_ID"
+      - name: Update Gist
+        uses: sergeysova/gist-write-action@v1
+        with:
+          gist_id: ${{ secrets.GIST_ID }}
+          file_name: youtube-music-like-button.user.js
+          content: ${{ steps.read_file.outputs.file_content }}
