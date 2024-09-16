@@ -18,8 +18,10 @@ jobs:
           GIST_ID: ${{ secrets.GIST_ID }}
         run: |
           content=$(cat youtube-music-like-button.user.js)
+          json_data=$(jq -n --arg content "$content" '{"files": {"youtube-music-like-button.user.js": {"content": $content}}}')
+
           curl -X PATCH \
             -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"files\": {\"youtube-music-like-button.user.js\": {\"content\": $(echo "$content" | jq -R -s .)}}}" \
+            -d "$json_data" \
             "https://api.github.com/gists/$GIST_ID"
