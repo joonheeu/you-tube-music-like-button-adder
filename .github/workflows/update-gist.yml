@@ -21,6 +21,8 @@ jobs:
 
       - name: Update Gist
         uses: sergeysova/gist-write-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           gist_id: ${{ secrets.GIST_ID }}
           file_name: youtube-music-like-button.user.js
