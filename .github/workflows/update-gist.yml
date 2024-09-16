@@ -11,19 +11,22 @@ jobs:
   update-gist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Read file content
-        id: read_file
-        run: |
-          content=$(cat youtube-music-like-button.user.js)
-          echo "::set-output name=file_content::$content"
-
-      - name: Update Gist
-        uses: sergeysova/gist-write-action@v1
+      - name: Read Gist
+        id: gist_content
+        uses: gorgbus/gist-actions@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
+          action: "get"
           gist_id: ${{ secrets.GIST_ID }}
-          file_name: youtube-music-like-button.user.js
-          content: ${{ steps.read_file.outputs.file_content }}
+          file_name: "youtube-music-like-button.user.js"
+
+      - name: Update Gist
+        uses: gorgbus/gist-actions@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          action: "update"
+          gist_id: ${{ secrets.GIST_ID }}
+          file_name: "youtube-music-like-button.user.js"
+          content: ${{ steps.gist_content.outputs.content }}
