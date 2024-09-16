@@ -19,6 +19,7 @@
 // @match           https://music.youtube.com/*
 // @icon            https://www.google.com/s2/favicons?sz=64&domain=music.youtube.com
 // @grant           none
+// @updateURL       https://gist.github.com/joonheeu/6517b8883ef8c6a5a764ec24be6c8232/raw/e3a43b74f91ec3a326455b588df4473009be9eec/youtube-music-like-button.user.js
 // ==/UserScript==
 
 ;(function () {
