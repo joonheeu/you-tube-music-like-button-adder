@@ -261,7 +261,7 @@
 
     openContextMenu: async (target) => {
       target.dispatchEvent(new MouseEvent("contextmenu", { bubbles: true }))
-      await new Promise((resolve) => setTimeout(resolve, 70))
+      await new Promise((resolve) => setTimeout(resolve, 60))
     },
 
     checkLikeStatus: async (target) => {
